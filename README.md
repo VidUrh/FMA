@@ -19,10 +19,10 @@ This is a lightweight, portable Python desktop application for managing choir fi
 
 ## DEVELOPMENT
 
-- Design and build a database to store financial data.
-- Create user interfaces to allow the user to view and interact with the data.
-- Implement additional features, such as report generation and expense categorization.
-- Consider using OCR technology to automate the data insertion process.
+- [ ] Design and build a database to store financial data.
+- [ ] Create user interfaces to allow the user to view and interact with the data.
+- [ ] Implement additional features, such as report generation and expense categorization.
+- [ ] Consider using OCR technology to automate the data insertion process.
 
 ## SETUP
 
