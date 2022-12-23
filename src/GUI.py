@@ -120,14 +120,27 @@ class TransactionWindow:
 class App():
     def __init__(self):
         # Create the main window
+        tk.set_appearance_mode("Dark")
+        tk.set_default_color_theme("dark-blue")
+
         self.root = tk.CTk()
-        self.root.title("Add Transaction")
+        self.root.title("Made with love for VAL")
         self.root.geometry("700*500")
-        frameTransaction = tk.CTkFrame(self.root)
-        frameMember = tk.CTkFrame(self.root)
+
+        self.tabview = tk.CTkTabview(self.root, width=250)
+        
+        
+        self.tabview.add("Members")
+        self.tabview.add("Transactions")
+
+        frameTransaction = tk.CTkFrame(self.tabview.tab("Transactions"))
+        frameMember = tk.CTkFrame(self.tabview.tab("Members"))
+
         TransactionWindow(frameTransaction)
         MemberWindow(frameMember)
-        self.root.mainloop()
+        
+        self.tabview.pack()
 
+        self.root.mainloop()    
 
 App()
