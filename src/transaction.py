@@ -1,10 +1,11 @@
 import sqlite3
-import parameters
 import datetime
+import parameters
 from member import Member
 
+
 class Transaction:
-    def __init__(self, sender_id, receiver_id, amount, description, category, date = None):
+    def __init__(self, sender_id, receiver_id, amount, description, category, date=None):
         self.transaction_id = 0
         self.sender_id = sender_id
         self.receiver_id = receiver_id
@@ -15,35 +16,42 @@ class Transaction:
             self.date = datetime.datetime.now()
         else:
             self.date = date
+
     def save(self):
+        """
+        This method doesn't take paramaters. It doesn't return anything.
+        It saves (or updates) the current Transaction object into the database.
+        It also modifies the sender's and recipient's balance by the transaction budget and saves
+        them to database.
+        """
+
         # Connect to the database
         conn = sqlite3.connect(parameters.databasePath)
-        c = conn.cursor()
+        cursor = conn.cursor()
 
         # Check if the transaction already exists in the table
-        c.execute("SELECT * FROM transactions WHERE transaction_id=?",
-                  (self.transaction_id,))
-        transaction = c.fetchone()
+        cursor.execute("SELECT * FROM transactions WHERE transaction_id=?",
+                       (self.transaction_id,))
+        transaction = cursor.fetchone()
 
         if transaction:
             # Update the existing row
-            c.execute(
+            cursor.execute(
                 "UPDATE transactions SET sender_id=?, receiver_id=?, amount=?, description=?, category=?, date=? WHERE transaction_id=?",
                 (self.sender_id, self.receiver_id, self.amount,
                  self.description, self.category, self.date, self.transaction_id)
             )
         else:
             # Insert a new row
-            c.execute(
+            cursor.execute(
                 "INSERT INTO transactions (transaction_id, sender_id, receiver_id, amount, description, category, date) VALUES (?, ?, ?, ?, ?, ?, ?)", (
                     self.transaction_id, self.sender_id, self.receiver_id, self.amount, self.description, self.category, self.date)
             )
-            self.transaction_id = c.lastrowid
-        
+            self.transaction_id = cursor.lastrowid
+
         # Commit the changes and close the connection
         conn.commit()
         conn.close()
-
 
         # Update the balance of the sender and receiver members
         sender = Member.get_member_by_id(self.sender_id)
@@ -59,10 +67,18 @@ class Transaction:
         else:
             raise Exception("Receiver not in the member database")
 
-        
-
     @classmethod
     def select(cls):
+        """
+        This classmethod takes one parameter cls, which is always Transaction class in this case.
+        It queries the database for all rows of this class.
+
+        Parameters:
+        - cls (className): A required class parameter (Example: Transaction.select()).
+
+        Returns:
+        - rows: array of all the rows from database, presented as a tuple.
+        """
         # Connect to the database
         connection = sqlite3.connect(parameters.databasePath)
         cursor = connection.cursor()
