@@ -72,7 +72,6 @@ def test_save_transaction(clean_database):
     # Retrieve the transactions from the database
     transactions = Transaction.select()
 
-    print(transactions)
     # Check that the transaction was saved correctly
     assert len(transactions) == 1
     assert transactions[0][1] == sender.member_id
