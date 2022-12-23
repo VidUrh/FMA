@@ -2,7 +2,7 @@ import pytest
 import sys
 import sqlite3
 
-sys.path.append("./src")
+sys.path.append("../src")
 
 from member import Member
 from transaction import Transaction

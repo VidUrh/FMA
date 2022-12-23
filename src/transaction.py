@@ -8,11 +8,11 @@ class Transaction:
         self.transaction_id = 0
         self.sender_id = sender_id
         self.receiver_id = receiver_id
-        self.amount = amount
+        self.amount = float(amount)
         self.description = description
         self.category = category
         if date is None:
-            self.date = datetime.datetime()
+            self.date = datetime.datetime.now()
         else:
             self.date = date
     def save(self):

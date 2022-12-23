@@ -1,7 +1,7 @@
 import sqlite3
 
 # Connect to the database
-conn = sqlite3.connect("./test_fma.db")
+conn = sqlite3.connect("./fma.db")
 
 # Open the SQL file
 with open("fma.sql", "r") as f:

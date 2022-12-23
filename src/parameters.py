@@ -1,1 +1,2 @@
-databasePath = "./db/fma.db"
+import os
+databasePath = os.path.join(os.path.abspath('../db'),"fma.db")
