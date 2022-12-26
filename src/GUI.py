@@ -1,36 +1,10 @@
-"""A module for creating and managing a GUI for a membership database.
-
-This module contains classes for creating graphical user interface (GUI) windows
-for adding and managing members and transactions in a membership database.
-The `MemberWindow` class provides a GUI for adding new members to the database,
-while the `TransactionWindow` class provides a GUI for adding new transactions between members.
-"""
-
 import customtkinter as tk
 from member import Member
 from transaction import Transaction
 
 
 class MemberWindow:
-    """A GUI window for adding new members to the database.
-
-    The MemberWindow class provides a graphical user interface
-    for adding new members to the database.
-    It consists of several entry widgets for entering the member's:
-        - name
-        - sex
-        - dress status
-        - and section
-    as well as a checkbox for indicating whether the member has a dress.
-    The window also has a button for adding the new member to the database.
-    """
-
     def __init__(self, root):
-        """Initialize the member window and its widgets.
-
-        :param root: The parent widget of the member window.
-        """
-
         # Create the main window
         self.window = root
 
@@ -56,8 +30,7 @@ class MemberWindow:
         self.section_entry.insert(0, "Enter Section")
 
         # Create the "Add Member" button
-        self.add_button = tk.CTkButton(
-            self.window, text="Add Member", command=self.add_member)
+        self.add_button = tk.CTkButton(self.window, text="Add Member", command=self.add_member)
 
         # Place the widgets in the window using a grid layout
         self.name_label.grid(row=0, column=0, padx=10, pady=10)
@@ -72,12 +45,7 @@ class MemberWindow:
         self.add_button.grid(row=4, column=1, padx=10, pady=10)
 
         self.window.pack()
-
     def add_member(self):
-        """Add a new member to the database using the values entered in the entry widgets.
-
-        :raises ValueError: If any of the required fields are empty.
-        """
         # Get the values from the entry widgets
         first_name = self.first_name_entry.get()
         last_name = self.last_name_entry.get()
@@ -90,24 +58,9 @@ class MemberWindow:
         member.save()
 
 
+
 class TransactionWindow:
-    """A GUI window for adding new transactions to the database.
-
-    The TransactionWindow class provides a graphical user interface
-    for adding new transactions to the database.
-    It consists of several entry widgets for entering the:
-        - sender's ID
-        - receiver's ID
-        - transaction amount
-    as well as a text area for entering a description of the transaction.
-    The window also has a button for adding the new transaction to the database.
-    """
-
     def __init__(self, root):
-        """Initialize the transaction window and its widgets.
-
-        :param root: The parent widget of the transaction window.
-        """
         # Create the main window
         self.window = root
 
@@ -134,8 +87,7 @@ class TransactionWindow:
         self.category_entry.insert(0, "Enter Category")
 
         # Create the "Add Transaction" button
-        self.add_button = tk.CTkButton(
-            self.window, text="Add Transaction", command=self.add_transaction)
+        self.add_button = tk.CTkButton(self.window, text="Add Transaction", command=self.add_transaction)
 
         # Place the widgets in the window using a grid layout
         self.sender_label.grid(row=0, column=0, padx=10, pady=10)
@@ -152,12 +104,6 @@ class TransactionWindow:
         self.window.pack()
 
     def add_transaction(self):
-        """Add a new transaction to the database using the values entered in the entry widgets.
-
-        :raises ValueError: If any of the required fields are empty
-        or if the transaction amount is not a valid number.
-        :raises KeyError: If the sender or receiver ID does not match any member in the database.
-        """
         # Get the values from the entry widgets
         sender_id = self.sender_id_entry.get()
         amount = self.sender_amount_entry.get()
@@ -172,13 +118,6 @@ class TransactionWindow:
 
 
 class App():
-    """The main application class for the membership database GUI.
-
-    The App class manages the overall flow of the membership database GUI application.
-    It creates and displays the main window and the member and transaction windows,
-    and handles switching between them.
-    """
-
     def __init__(self):
         # Create the main window
         tk.set_appearance_mode("Dark")
@@ -189,17 +128,19 @@ class App():
         self.root.geometry("700*500")
 
         self.tabview = tk.CTkTabview(self.root, width=250)
+        
+        
         self.tabview.add("Members")
         self.tabview.add("Transactions")
 
-        frame_transaction = tk.CTkFrame(self.tabview.tab("Transactions"))
-        frame_member = tk.CTkFrame(self.tabview.tab("Members"))
+        frameTransaction = tk.CTkFrame(self.tabview.tab("Transactions"))
+        frameMember = tk.CTkFrame(self.tabview.tab("Members"))
 
-        TransactionWindow(frame_transaction)
-        MemberWindow(frame_member)
-
+        TransactionWindow(frameTransaction)
+        MemberWindow(frameMember)
+        
         self.tabview.pack()
-        self.root.mainloop()
 
+        self.root.mainloop()    
 
 App()
