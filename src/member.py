@@ -1,7 +1,6 @@
 import sqlite3
 import parameters
 
-
 class Member:
     def __init__(self, first_name, last_name, sex, has_dress, section, balance=0.00):
         self.member_id = -1
@@ -38,6 +37,7 @@ class Member:
             return member
         return None
 
+
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
 
@@ -50,27 +50,27 @@ class Member:
     def save(self):
         # Connect to the database
         conn = sqlite3.connect(parameters.databasePath)
-        cursor = conn.cursor()
+        c = conn.cursor()
 
         # Check if the member already exists in the table
-        cursor.execute("SELECT * FROM members WHERE member_id=?", (self.member_id,))
-        member = cursor.fetchone()
+        c.execute("SELECT * FROM members WHERE member_id=?", (self.member_id,))
+        member = c.fetchone()
 
         if member:
             # Update the existing row
-            cursor.execute(
+            c.execute(
                 "UPDATE members SET first_name=?, last_name=?, sex=?, has_dress=?, balance=? WHERE member_id=?",
                 (self.first_name, self.last_name, self.sex,
                  self.has_dress, self.balance, self.member_id)
             )
         else:
             # Insert a new row
-            cursor.execute(
+            c.execute(
                 "INSERT INTO members (first_name, last_name, sex, has_dress, balance, section) VALUES (?, ?, ?, ?, ?, ?)",
                 (self.first_name, self.last_name,
                  self.sex, self.has_dress, self.balance, self.section)
             )
-            self.member_id = cursor.lastrowid
+            self.member_id = c.lastrowid
 
         # Commit the changes and close the connection
         conn.commit()

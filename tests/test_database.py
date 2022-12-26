@@ -1,16 +1,15 @@
-import sqlite3
-import sys
 import pytest
-import parameters
-from transaction import Transaction
-from member import Member
+import sys
+import sqlite3
 
 sys.path.append("../src")
 
+from member import Member
+from transaction import Transaction
+import parameters
 
 @pytest.fixture()
 def clean_database():
-    """Fixture function to clean the members and transactions tables in the database before running each test."""
     conn = sqlite3.connect(parameters.databasePath)
     c = conn.cursor()
 
@@ -20,9 +19,7 @@ def clean_database():
     conn.commit()
     conn.close()
 
-
 def test_save_member(clean_database):
-    """Test saving a new member to the database."""
     # Create a new member
     member = Member("John", "Doe", "M", True, "Section 1")
 
@@ -37,13 +34,11 @@ def test_save_member(clean_database):
     assert members[0].first_name == "John"
     assert members[0].last_name == "Doe"
     assert members[0].sex == "M"
-    assert members[0].has_dress is True
+    assert members[0].has_dress == True
     assert members[0].section == "Section 1"
     assert members[0].balance == 0.0
 
-
 def test_update_member(clean_database):
-    """Test updating an existing member in the database."""
     # Create a new member
     member = Member("John", "Doe", "M", True, "Section 1")
     member.save()
@@ -61,19 +56,16 @@ def test_update_member(clean_database):
     assert members[0].first_name == "Jane"
     assert members[0].has_dress == False
 
-
 def test_save_transaction(clean_database):
-    """Test saving a new transaction to the database."""
     # Create two new members
     sender = Member("Jane", "Doe", "F", False, "Section 1")
     receiver = Member("John", "Doe", "M", True, "Section 1")
-
+    
     sender.save()
     receiver.save()
 
     # Create a new transaction
-    transaction = Transaction(sender.member_id, receiver.member_id,
-                              100.0, "Test transaction", "Test", "2022-01-01")
+    transaction = Transaction(sender.member_id, receiver.member_id, 100.0,"Test transaction","Test","2022-01-01")
     # Save the transaction to the database
     transaction.save()
 
