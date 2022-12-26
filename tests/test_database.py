@@ -1,11 +1,13 @@
 import sqlite3
 import sys
 import pytest
+
+sys.path.append("../src")
+
 import parameters
 from transaction import Transaction
 from member import Member
 
-sys.path.append("../src")
 
 
 @pytest.fixture()
@@ -37,7 +39,7 @@ def test_save_member(clean_database):
     assert members[0].first_name == "John"
     assert members[0].last_name == "Doe"
     assert members[0].sex == "M"
-    assert members[0].has_dress is True
+    assert members[0].has_dress == True
     assert members[0].section == "Section 1"
     assert members[0].balance == 0.0
 
