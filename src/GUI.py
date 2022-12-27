@@ -4,28 +4,6 @@ import tkinter as tk
 from member import Member
 from transaction import Transaction
 
-class AutoCompleteComboBox(ctk.CTkComboBox):
-    def __init__(self, root, values):
-        self.root = root
-        self.allData = values
-        self.data = [name for name in values]
-        super(). __init__(root,values = values) 
-        self.bind('<KeyRelease>', self.checkKeyPressed)
-
-
-    def checkKeyPressed(self,event):
-        value = self.get()
-        if value == '':
-            self.data = [x for x in self.allData]
-        else:
-            self.data = []
-            for item in self.allData:
-                if value.lower() in item.lower():
-                    self.data.append(item)
-        self.update()
-
-    def update(self):
-        self.configure(values = self.data)
 
 class AutoCompleteEntry():
     def __init__(self, root, data):
